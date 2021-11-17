@@ -1,0 +1,521 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Final_mrGuardModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdminPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdminName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="int" Nullable="false" />
+          <Property Name="Category_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="C_Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="C_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="C_Phone" Type="int" Nullable="false" />
+          <Property Name="C_Address" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Order_ID" />
+          </Key>
+          <Property Name="Order_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="C_ID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="O_Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Payment_Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Order_Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Category_ID" Type="int" Nullable="false" />
+          <Property Name="Product_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="imagePath" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="R_ID" />
+          </Key>
+          <Property Name="R_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_ID" Type="int" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Rating" Type="float" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Final_mrGuard.dbo.Stock' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+            <PropertyRef Name="Product_ID" />
+            <PropertyRef Name="Stock_Quantity" />
+          </Key>
+          <Property Name="Category_ID" Type="int" Nullable="false" />
+          <Property Name="Product_ID" Type="int" Nullable="false" />
+          <Property Name="Stock_Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Orders__C_ID__1A14E395">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="C_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Product___1920BF5C">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__Categor__164452B1">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__C_ID__1FCDBCEB">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="C_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__Product___20C1E124">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__Category___1BFD2C07">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__Product_I__1CF15040">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Final_mrGuardModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Stock].[Category_ID] AS [Category_ID], 
+    [Stock].[Product_ID] AS [Product_ID], 
+    [Stock].[Stock_Quantity] AS [Stock_Quantity]
+    FROM [dbo].[Stock] AS [Stock]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Orders__C_ID__1A14E395" Association="Self.FK__Orders__C_ID__1A14E395">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Product___1920BF5C" Association="Self.FK__Orders__Product___1920BF5C">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Categor__164452B1" Association="Self.FK__Product__Categor__164452B1">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__C_ID__1FCDBCEB" Association="Self.FK__Review__C_ID__1FCDBCEB">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__Product___20C1E124" Association="Self.FK__Review__Product___20C1E124">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__Category___1BFD2C07" Association="Self.FK__Stock__Category___1BFD2C07">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__Product_I__1CF15040" Association="Self.FK__Stock__Product_I__1CF15040">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Final_mrGuardModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdminPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AdminName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="Int32" Nullable="false" />
+          <Property Name="Category_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__Product__Categor__164452B1" FromRole="Category" ToRole="Product" />
+          <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__Category___1BFD2C07" FromRole="Category" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="C_ID" />
+          </Key>
+          <Property Name="C_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="C_Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="C_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C_Phone" Type="Int32" Nullable="false" />
+          <Property Name="C_Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__C_ID__1A14E395" FromRole="Customer" ToRole="Orders" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__C_ID__1FCDBCEB" FromRole="Customer" ToRole="Review" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_ID" />
+          </Key>
+          <Property Name="Order_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="C_ID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="O_Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Payment_Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Order_Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Orders__C_ID__1A14E395" FromRole="Orders" ToRole="Customer" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Orders__Product___1920BF5C" FromRole="Orders" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Category_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="imagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Product__Categor__164452B1" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Product___1920BF5C" FromRole="Product" ToRole="Orders" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__Product___20C1E124" FromRole="Product" ToRole="Review" />
+          <NavigationProperty Name="Stocks" Relationship="Self.FK__Stock__Product_I__1CF15040" FromRole="Product" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="R_ID" />
+          </Key>
+          <Property Name="R_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rating" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Review__C_ID__1FCDBCEB" FromRole="Review" ToRole="Customer" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Review__Product___20C1E124" FromRole="Review" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+            <PropertyRef Name="Product_ID" />
+            <PropertyRef Name="Stock_Quantity" />
+          </Key>
+          <Property Name="Category_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" Nullable="false" />
+          <Property Name="Stock_Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Stock__Category___1BFD2C07" FromRole="Stock" ToRole="Category" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__Stock__Product_I__1CF15040" FromRole="Stock" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Product__Categor__164452B1">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__Category___1BFD2C07">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="Category_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__C_ID__1A14E395">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="C_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__C_ID__1FCDBCEB">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="C_ID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="C_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Product___1920BF5C">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__Product___20C1E124">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Stock__Product_I__1CF15040">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Final_mrGuardEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <EntitySet Name="Stocks" EntityType="Self.Stock" />
+          <AssociationSet Name="FK__Product__Categor__164452B1" Association="Self.FK__Product__Categor__164452B1">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__Category___1BFD2C07" Association="Self.FK__Stock__Category___1BFD2C07">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Stock" EntitySet="Stocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__C_ID__1A14E395" Association="Self.FK__Orders__C_ID__1A14E395">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__C_ID__1FCDBCEB" Association="Self.FK__Review__C_ID__1FCDBCEB">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Product___1920BF5C" Association="Self.FK__Orders__Product___1920BF5C">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__Product___20C1E124" Association="Self.FK__Review__Product___20C1E124">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Stock__Product_I__1CF15040" Association="Self.FK__Stock__Product_I__1CF15040">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Stock" EntitySet="Stocks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Final_mrGuardModelStoreContainer" CdmEntityContainer="Final_mrGuardEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="Final_mrGuardModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="AdminEmail" ColumnName="AdminEmail" />
+                <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
+                <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="Final_mrGuardModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="Category_Name" ColumnName="Category_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Final_mrGuardModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="C_Email" ColumnName="C_Email" />
+                <ScalarProperty Name="C_Password" ColumnName="C_Password" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="C_Phone" ColumnName="C_Phone" />
+                <ScalarProperty Name="C_Address" ColumnName="C_Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="Final_mrGuardModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="O_Address" ColumnName="O_Address" />
+                <ScalarProperty Name="Payment_Type" ColumnName="Payment_Type" />
+                <ScalarProperty Name="Order_Quantity" ColumnName="Order_Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="Final_mrGuardModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="imagePath" ColumnName="imagePath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="Final_mrGuardModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="R_ID" ColumnName="R_ID" />
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stocks">
+            <EntityTypeMapping TypeName="Final_mrGuardModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Stock_Quantity" ColumnName="Stock_Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

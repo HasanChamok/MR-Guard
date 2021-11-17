@@ -1,0 +1,26 @@
+﻿@model Final_mrGuard.Models.Category
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Category_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category_Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Category_ID }) |
+    @Html.ActionLink("Back to Category List", "Index")
+</p>

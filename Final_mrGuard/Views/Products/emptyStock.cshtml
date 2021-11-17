@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Final_mrGuard.Models.Product>
+@{
+    ViewBag.Title = "emptyStock";
+}
+
+
+
+
+@if (Model != null)
+{
+    int flag = 0;
+    foreach (var item in Model)
+    {
+        if (item.Quantity == 0)
+        {
+            flag = 1;
+            <table class="table">
+                <tbody>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Product_Name)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+
+                        <th>
+
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <td>@item.Product_Name</td>
+
+                        <td>@item.Quantity</td>
+
+                        <td><p>Stock Out !</p></td>
+                    </tr>
+
+                    <tr>
+                    </tr>
+                </tbody>
+
+            </table>
+        }
+
+
+    }
+    if (flag == 0)
+    {
+        <h2 style="text-align:center">All the products are availabe</h2>
+    }
+}
+

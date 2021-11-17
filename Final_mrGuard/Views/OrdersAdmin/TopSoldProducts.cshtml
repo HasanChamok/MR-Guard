@@ -1,0 +1,83 @@
+﻿
+@model IEnumerable<Final_mrGuard.Models.Order>
+@{
+    ViewBag.Title = "TopSoldProducts";
+}
+
+
+<h2 style="text-align:center">TopSoldProducts</h2>
+
+
+<table class="table">
+    <tbody>
+        <tr>
+
+            <th>
+                Product ID
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Order_Quantity)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @{
+            int s;
+            int x = 0, y = 0;
+            int total;
+            int[] flag = new int[50];
+            int[] product = new int[50];
+            int i = 0;
+            int max = 0;
+        }
+
+        @foreach (var item1 in Model)
+        {
+            total = 0;
+            x = item1.Product_ID;
+            foreach (var item in Model)
+            {
+                s = item.Product_ID;
+                if (x == s)
+                {
+                    total = total + item.Order_Quantity;
+                }
+            }
+
+            if (x != y)
+            {
+                flag[i] = total;
+                product[i] = x;
+                i = i + 1;
+            }
+            y = x;
+
+        }
+        @for (int j = 0; j < i; j++)
+        {
+            if (flag[j + 1] > flag[j])
+            {
+                max = flag[j];
+                flag[j] = flag[j + 1];
+                flag[j + 1] = max;
+                j = -1;
+            }
+        }
+        @for (int j = 0; j < 3; j++)
+        {
+            <tr>
+                <td>@product[j]</td>
+
+                <td>@flag[j]</td>
+
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+
+

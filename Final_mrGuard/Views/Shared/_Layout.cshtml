@@ -1,0 +1,144 @@
+﻿@using Final_mrGuard.Models;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <link href="~/Content/font-awesome/css/all.css" rel="stylesheet" />
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Mr. Guard", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+
+                    @if (Session["customer_email"] != null || Session["admin_email"] != null)
+                    {
+                        if (Session["customer_email"] != null)
+                        {
+
+
+                            <li>@Html.ActionLink("Product", "Index", "ProductsCustomer")</li>
+                            <li>@Html.ActionLink("Review", "Create", "Reviews")</li>
+
+
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Catagoy", "Create", "Categories")</li>
+                            <li>@Html.ActionLink("Product", "Create", "Products")</li>
+                            <li>@Html.ActionLink("Customers", "Index", "Customers")</li>
+                            <li>@Html.ActionLink("Order", "Index", "OrdersAdmin")</li>
+                            <li>@Html.ActionLink("Review", "Index", "ReviewsAdmin")</li>
+                        }
+                    }
+
+
+
+
+
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+
+
+                    @if (Session["customer_email"] != null || Session["admin_email"] != null)
+                    {
+                        if (Session["customer_email"] != null)
+                        {
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Session["customer_name"]<span class="caret"></span></a>
+
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("DashBoard", "Customers")" style="font-weight:bold;">Profile</a></li>
+                                   
+                                    <li><a href="@Url.Action("Signout", "Customers")" style="font-weight:bold;">Sign Out</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Cart<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    @if (Session["cart"] != null)
+                                    {
+                                        foreach (var item in (List<Item>)Session["cart"])
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("RemoveFromCart","ProductsCustomer",new {productID=item.Product.Product_ID})">@item.Product.Product_Name (@item.Quantity) <button type="submit"><i class="fa fa-times"></i></button></a>
+                                            </li>
+                                        }
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a href="@Url.Action("CheckoutDetails", "ProductsCustomer")" style="font-weight:bold;">Checkout</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Session["admin_name"]<span class="caret"></span></a>
+
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("AdminDashBoard", "Admins")" style="font-weight:bold;">Profile</a></li>
+                                    <li><a href="@Url.Action("emptyStock", "Products")" style="font-weight:bold;">Report</a></li>
+                                    <li><a href="@Url.Action("productRanking", "ReviewsAdmin")" style="font-weight:bold;">Product Ranking</a></li>
+                                    <li><a href="@Url.Action("TopSoldProducts", "OrdersAdmin")" style="font-weight:bold;">Top Sold Products</a></li>
+
+                                    <li><a href="@Url.Action("AdminSignout", "Admins")" style="font-weight:bold;">Sign Out</a></li>
+                                </ul>
+                            </li>
+                        }
+                    }
+
+                    else
+                    {
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span> Sign in / Sign Up <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("AdminLogin", "Admins")" style="font-weight:bold;">Admin</a></li>
+                                <li><a href="@Url.Action("Login", "Customers")" style="font-weight:bold;">Customer</a></li>
+                            </ul>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p style="text-align:center;">&copy; @DateTime.Now.Year - Mr. Guard. All rights reserved.</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

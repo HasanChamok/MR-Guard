@@ -1,0 +1,58 @@
+﻿@model Final_mrGuard.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Product_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+
+        </dt>
+
+        <dd>
+            <img src="@Url.Content(Model.imagePath)" width="250" height="250" multiple />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.Category_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.Category_Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    
+    @Html.ActionLink("Back to Product List", "Index")
+</p>

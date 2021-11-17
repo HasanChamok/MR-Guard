@@ -1,0 +1,32 @@
+﻿@model Final_mrGuard.Models.Admin
+
+@{
+    ViewBag.Title = "AdminDashBoard";
+}
+
+<h2>Profile</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdminEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdminEmail)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdminName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdminName)
+        </dd>
+
+    </dl>
+</div>
+

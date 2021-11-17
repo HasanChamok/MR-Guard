@@ -1,0 +1,64 @@
+﻿@model Final_mrGuard.Models.Customer
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Address)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

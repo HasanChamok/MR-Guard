@@ -1,0 +1,128 @@
+﻿
+@model Final_mrGuard.Models.TempProducts
+@using Final_mrGuard.Models
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+@if (Session["customer_email"] != null)
+{
+    <h2 style="margin-left:465px">Products</h2>
+
+
+    <div class="row">
+        <hr />
+        <div class="col-lg-4"> </div>
+        <div class="col-lg-4">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Product_Name, new { htmlAttributes = new { placeholder = " Enter product name", @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Product_Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="Search" class="btn btn-success btn-block" />
+                        </div>
+
+                    </div>
+
+
+                </div>
+            }
+        </div>
+        <div class="col-lg-4"> </div>
+    </div>
+
+
+
+    <table class="table">
+
+        <tr>
+            <th>
+               
+                Product_Name
+            </th>
+            <th>
+
+                Price
+            </th>
+            <th>
+
+                Quantity
+            </th>
+            <th>
+
+                imagePath
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var pro in ViewData["pr"] as IEnumerable<Product>)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => pro.Product_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => pro.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => pro.Quantity)
+                </td>
+                <td>
+                    <img src="@Url.Content(pro.imagePath)" height="100" width="100" />
+                </td>
+              
+                <td>
+                    <p>
+                        @if (pro.Quantity > 0)
+                        {
+                            using (Html.BeginForm("AddToCart", "ProductsCustomer", new { @productID = pro.Product_ID }, FormMethod.Post))
+                            {
+
+                                <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                            }
+                        <p>Available</p>
+                    }
+                    else
+                    {
+                        <p>Not Available</p>
+                    }
+                        </p>
+                    </td>
+                    <td>
+
+                        @Html.ActionLink("Details", "Details", new { id = pro.Product_ID })
+
+                    </td>
+                </tr>
+            }
+
+    </table>
+
+}
+else
+{
+<div style="margin-left:400px; margin-top:100px; font-size:30px">
+
+    @Html.ActionLink("You have to login first !!!!!", "Login", "Customers")
+
+</div>
+  
+}
+

@@ -1,0 +1,66 @@
+﻿@model Final_mrGuard.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.O_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.O_Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Payment_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Payment_Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Order_Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order_Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.C_Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.C_Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.Product_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product.Product_Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Order_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,52 @@
+﻿@model Final_mrGuard.Models.Customer
+
+@{
+    ViewBag.Title = "DashBoard";
+}
+
+<h2>Profile</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Email)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_Address)
+        </dd>
+
+    </dl>
+    <p>
+        @Html.ActionLink("Edit your profile", "Edit", new { id = Model.C_ID })
+    </p>
+
+</div>
+
